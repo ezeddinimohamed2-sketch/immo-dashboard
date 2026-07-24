@@ -202,7 +202,18 @@
   .sector-card .count{font-size:.78rem; color:var(--gold-light); font-weight:600;}
 
   /* Opportunities */
+  .filter-bar{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:32px;}
+  .filter-chip{
+    padding:9px 18px; border-radius:999px; font-size:.82rem; font-weight:600;
+    background:transparent; border:1px solid var(--border); color:var(--muted);
+    cursor:pointer; transition:all .15s ease;
+  }
+  .filter-chip:hover{border-color:var(--gold); color:var(--gold-light);}
+  .filter-chip.active{background:linear-gradient(135deg,var(--gold-light),var(--gold)); color:#151008; border-color:transparent;}
   .opps-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .opp-card.hidden{display:none;}
+  .opps-empty{display:none; color:var(--muted); font-size:.9rem; padding:32px 0; text-align:center;}
+  .opps-empty.show{display:block;}
   .opp-card{
     background:var(--card);
     border:1px solid var(--border);
@@ -491,7 +502,15 @@
         <h2>Une sélection de biens et projets à fort potentiel</h2>
         <p>Exemples de la sélection actuelle — photos et fiches complètes transmises sur demande aux investisseurs qualifiés.</p>
       </div>
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-chip active" data-filter="Tous">Tous</button>
+        <button class="filter-chip" data-filter="Résidentiel">Résidentiel</button>
+        <button class="filter-chip" data-filter="Projet">Projets</button>
+        <button class="filter-chip" data-filter="Industriel">Usines &amp; Industriel</button>
+        <button class="filter-chip" data-filter="Hôtellerie">Hôtellerie</button>
+      </div>
       <div class="opps-grid" id="oppsGrid"></div>
+      <div class="opps-empty" id="oppsEmpty">Aucun bien dans cette catégorie pour le moment — contactez-nous pour être notifié des prochaines opportunités.</div>
     </div>
   </section>
 
@@ -719,6 +738,60 @@ const OPPORTUNITIES = [
     metrics: [["24 ch.","Capacité"],["13%","ROI estimé"]],
     desc: "Boutique-hôtel de charme entièrement rénové, très bien noté, forte demande touristique toute l'année.",
     color: "linear-gradient(135deg,#241018,#160a0f)"
+  },
+  {
+    id: 7, category: "Résidentiel", status: "Disponible",
+    title: "Marina Heights",
+    location: "Lac de Tunis, Tunisie",
+    price: "À partir de 620 000 TND",
+    metrics: [["2 100 m²","Surface"],["8%","ROI estimé"]],
+    desc: "Immeuble de standing de 28 appartements face au lac, forte demande locative cadres et expatriés.",
+    color: "linear-gradient(135deg,#1a2024,#10151a)"
+  },
+  {
+    id: 8, category: "Projet", status: "Précommercialisation",
+    title: "Palm Business District",
+    location: "Sousse, Tunisie",
+    price: "5 400 000 TND",
+    metrics: [["18 000 m²","Surface"],["12%","ROI estimé"]],
+    desc: "Programme mixte bureaux et commerces en zone franche, permis de construire obtenu, livraison en 3 phases.",
+    color: "linear-gradient(135deg,#182018,#0e130e)"
+  },
+  {
+    id: 9, category: "Industriel", status: "Disponible",
+    title: "TexPro Manufacturing",
+    location: "Zone industrielle, Tunisie",
+    price: "2 750 000 TND",
+    metrics: [["6 200 m²","Surface"],["11%","ROI estimé"]],
+    desc: "Unité textile équipée et opérationnelle, contrats d'export établis avec l'Europe, main-d'œuvre qualifiée en place.",
+    color: "linear-gradient(135deg,#20191c,#130f11)"
+  },
+  {
+    id: 10, category: "Hôtellerie", status: "Disponible",
+    title: "Sahara Dunes Lodge",
+    location: "Douz, Tunisie",
+    price: "3 600 000 TND",
+    metrics: [["36 ch.","Capacité"],["15%","ROI estimé"]],
+    desc: "Lodge écotouristique en plein essor, forte croissance de la demande sur le tourisme saharien authentique.",
+    color: "linear-gradient(135deg,#241c10,#160f09)"
+  },
+  {
+    id: 11, category: "Résidentiel", status: "Exclusif",
+    title: "Villa Collection Gammarth",
+    location: "Gammarth, Tunisie",
+    price: "1 450 000 TND / unité",
+    metrics: [["450 m²","Surface/villa"],["9%","ROI estimé"]],
+    desc: "Ensemble de 12 villas de standing en bord de mer, finitions haut de gamme, forte plus-value attendue.",
+    color: "linear-gradient(135deg,#1e1a24,#120f16)"
+  },
+  {
+    id: 12, category: "Projet", status: "Phase 1",
+    title: "Cap Logistics Park",
+    location: "Radès, Tunisie",
+    price: "7 200 000 TND",
+    metrics: [["30 000 m²","Surface"],["13%","ROI estimé"]],
+    desc: "Plateforme logistique nouvelle génération près du port, idéale pour investisseurs orientés e-commerce et import-export.",
+    color: "linear-gradient(135deg,#141c20,#0c1215)"
   }
 ];
 
@@ -757,6 +830,26 @@ function renderOpportunities(){
   });
   observeReveal();
 }
+
+function applyFilter(filter){
+  const cards = document.querySelectorAll('#oppsGrid .opp-card');
+  let visibleCount = 0;
+  cards.forEach(card=>{
+    const opp = OPPORTUNITIES.find(o=>o.id===parseInt(card.dataset.id));
+    const match = filter === "Tous" || opp.category === filter;
+    card.classList.toggle('hidden', !match);
+    if(match) visibleCount++;
+  });
+  document.getElementById('oppsEmpty').classList.toggle('show', visibleCount === 0);
+}
+
+document.getElementById('filterBar').addEventListener('click', (e)=>{
+  const btn = e.target.closest('.filter-chip');
+  if(!btn) return;
+  document.querySelectorAll('.filter-chip').forEach(c=> c.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilter(btn.dataset.filter);
+});
 
 function openModal(id){
   const o = OPPORTUNITIES.find(x=>x.id===id);
