@@ -10,7 +10,13 @@ import { useState, useEffect, useCallback, useRef, createContext, useContext } f
 // ══════════════════════════════════════════════════════
 const API_BASE      = "https://immo-backend-00a7.onrender.com";
 const SUPABASE_URL  = "https://xsrawontytjkzgimmpkp.supabase.co";
-const SUPABASE_ANON = "sb_secret_HDhCuYEroQy49lzsNJzeUQ_piDFyorK";
+// ATTENTION: n'utilisez ici QUE la clé publique "anon" de Supabase
+// (Project Settings > API > anon public). Ne jamais mettre la clé
+// "service_role" / "secret" dans du code exécuté côté navigateur :
+// elle contourne les règles RLS et donne un accès total à la base.
+// Une ancienne clé secrète a été trouvée en dur ici et a été retirée :
+// elle doit être régénérée immédiatement dans le dashboard Supabase.
+const SUPABASE_ANON = "";
 // ══════════════════════════════════════════════════════
 //  TOKEN STORE
 // ══════════════════════════════════════════════════════
