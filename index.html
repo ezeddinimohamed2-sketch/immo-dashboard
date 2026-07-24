@@ -1,19 +1,864 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ImmoGeo — Dashboard Agent</title>
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Invest 2030 — Investissement Immobilier, Industriel &amp; Hôtelier</title>
+<meta name="description" content="Smart Invest 2030 sélectionne pour ses investisseurs des opportunités immobilières, industrielles et hôtelières à fort potentiel : résidentiel, projets de développement, usines et hôtels à vendre.">
+<meta name="theme-color" content="#0a0e17">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0e17'/%3E%3Cpath d='M20 70 L50 30 L80 70 M35 70 V50 M65 70 V50' stroke='%23c9a24b' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+<!-- NOTE: Site vitrine avec biens/projets D'EXEMPLE (voir tableau OPPORTUNITIES plus bas).
+     Remplacez photos, prix, textes et coordonnées par vos données réelles avant mise en ligne définitive. -->
+
+<style>
+  :root{
+    --bg:#0a0e17;
+    --bg-alt:#0e1420;
+    --card:#131a29;
+    --card-hover:#171f31;
+    --border:rgba(255,255,255,.08);
+    --gold:#c9a24b;
+    --gold-light:#e6c877;
+    --text:#f3efe6;
+    --muted:#98a2b8;
+    --muted-2:#6b7688;
+    --serif: Georgia, 'Times New Roman', Times, serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --radius: 14px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  img,svg{display:block; max-width:100%;}
+  ul{list-style:none;}
+  .container{
+    width:100%;
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:.75rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold-light);
+    font-weight:600;
+    margin-bottom:14px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;height:1px;background:var(--gold);
+  }
+  h1,h2,h3,h4{
+    font-family:var(--serif);
+    font-weight:600;
+    letter-spacing:.01em;
+    color:var(--text);
+  }
+  h2{font-size:clamp(1.7rem, 3.2vw, 2.5rem); line-height:1.2;}
+  .section-head{max-width:640px; margin-bottom:48px;}
+  .section-head p{color:var(--muted); font-size:1.02rem; margin-top:14px;}
+  section{padding:96px 0;}
+  .muted{color:var(--muted);}
+
+  /* Buttons */
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:14px 28px;
+    border-radius:999px;
+    font-weight:600;
+    font-size:.92rem;
+    cursor:pointer;
+    border:1px solid transparent;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease;
+    white-space:nowrap;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-gold{
+    background:linear-gradient(135deg, var(--gold-light), var(--gold));
+    color:#151008;
+  }
+  .btn-gold:hover{box-shadow:0 8px 24px rgba(201,162,75,.35); transform:translateY(-1px);}
+  .btn-ghost{
+    background:transparent;
+    color:var(--text);
+    border-color:var(--border);
+  }
+  .btn-ghost:hover{border-color:var(--gold); color:var(--gold-light);}
+  .btn-block{width:100%;}
+  .btn[disabled]{opacity:.6; cursor:not-allowed; transform:none;}
+
+  /* Header */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    backdrop-filter:blur(14px);
+    background:rgba(10,14,23,.72);
+    border-bottom:1px solid var(--border);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px;
+    max-width:1180px; margin:0 auto;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--serif);
+    font-size:1.15rem; font-weight:700; letter-spacing:.02em;
+  }
+  .logo .mark{
+    width:34px; height:34px; border-radius:9px;
+    background:linear-gradient(135deg, var(--gold-light), var(--gold));
+    display:flex; align-items:center; justify-content:center;
+    color:#151008; font-weight:800; font-family:var(--sans);
+  }
+  .logo small{display:block; font-family:var(--sans); font-size:.6rem; letter-spacing:.2em; color:var(--muted); font-weight:600;}
+  .nav-links{display:flex; align-items:center; gap:32px;}
+  .nav-links a{font-size:.88rem; font-weight:500; color:var(--muted); transition:color .15s;}
+  .nav-links a:hover{color:var(--gold-light);}
+  .nav-cta{display:flex; align-items:center; gap:14px;}
+  .burger{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px;}
+  .burger span{width:22px; height:2px; background:var(--text); display:block;}
+  .mobile-menu{
+    display:none;
+    flex-direction:column;
+    gap:4px;
+    padding:12px 24px 20px;
+    border-top:1px solid var(--border);
+    background:rgba(10,14,23,.98);
+  }
+  .mobile-menu a{padding:12px 0; font-size:.95rem; color:var(--muted); border-bottom:1px solid var(--border);}
+  .mobile-menu.open{display:flex;}
+
+  /* Hero */
+  .hero{
+    position:relative;
+    padding:190px 0 120px;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(201,162,75,.16), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(80,110,180,.14), transparent 60%),
+      var(--bg);
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size:56px 56px;
+    mask-image:radial-gradient(ellipse 900px 500px at 30% 20%, black, transparent 70%);
+    pointer-events:none;
+  }
+  .hero-inner{position:relative; z-index:1; max-width:760px;}
+  .hero h1{font-size:clamp(2.3rem, 5vw, 3.7rem); line-height:1.12; margin-bottom:22px;}
+  .hero h1 em{color:var(--gold-light); font-style:normal;}
+  .hero p.lead{font-size:1.15rem; color:var(--muted); max-width:560px; margin-bottom:36px;}
+  .hero-actions{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:64px;}
+  .hero-stats{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--border); border:1px solid var(--border); border-radius:var(--radius);
+    overflow:hidden; max-width:760px;
+  }
+  .hero-stats div{background:rgba(255,255,255,.02); padding:22px 18px;}
+  .hero-stats strong{display:block; font-family:var(--serif); font-size:1.6rem; color:var(--gold-light);}
+  .hero-stats span{font-size:.78rem; color:var(--muted); letter-spacing:.02em;}
+
+  /* Sector cards */
+  .sectors-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
+  }
+  .sector-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:28px 24px;
+    transition:transform .2s ease, border-color .2s ease, background .2s ease;
+  }
+  .sector-card:hover{transform:translateY(-4px); border-color:rgba(201,162,75,.4); background:var(--card-hover);}
+  .icon-badge{
+    width:48px; height:48px; border-radius:12px;
+    background:rgba(201,162,75,.12);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:18px;
+  }
+  .icon-badge svg{width:24px; height:24px; stroke:var(--gold-light);}
+  .sector-card h3{font-size:1.08rem; margin-bottom:8px;}
+  .sector-card p{font-size:.88rem; color:var(--muted); margin-bottom:16px;}
+  .sector-card .count{font-size:.78rem; color:var(--gold-light); font-weight:600;}
+
+  /* Opportunities */
+  .opps-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .opp-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden;
+    display:flex; flex-direction:column;
+    transition:transform .2s ease, border-color .2s ease;
+  }
+  .opp-card:hover{transform:translateY(-4px); border-color:rgba(201,162,75,.35);}
+  .opp-thumb{
+    height:170px;
+    position:relative;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .opp-thumb svg{width:46px; height:46px; opacity:.9;}
+  .opp-thumb::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size:24px 24px;
+  }
+  .tag{
+    position:absolute; top:14px; left:14px; z-index:2;
+    font-size:.68rem; text-transform:uppercase; letter-spacing:.08em; font-weight:700;
+    padding:5px 11px; border-radius:999px;
+    background:rgba(10,14,23,.55); backdrop-filter:blur(4px);
+    color:var(--gold-light);
+    border:1px solid rgba(255,255,255,.14);
+  }
+  .status{
+    position:absolute; top:14px; right:14px; z-index:2;
+    font-size:.66rem; font-weight:700; letter-spacing:.04em;
+    padding:5px 10px; border-radius:999px;
+    background:rgba(80,190,120,.18); color:#7fe0a6;
+    border:1px solid rgba(80,190,120,.3);
+  }
+  .opp-body{padding:20px 22px 22px; display:flex; flex-direction:column; gap:10px; flex:1;}
+  .opp-body h3{font-size:1.08rem;}
+  .opp-loc{font-size:.82rem; color:var(--muted); display:flex; align-items:center; gap:6px;}
+  .opp-metrics{display:flex; gap:14px; margin:6px 0 4px; flex-wrap:wrap;}
+  .opp-metrics div{font-size:.75rem; color:var(--muted-2);}
+  .opp-metrics strong{display:block; color:var(--text); font-size:.92rem; font-family:var(--serif);}
+  .opp-price{font-family:var(--serif); font-size:1.2rem; color:var(--gold-light); margin-top:auto; padding-top:10px; border-top:1px solid var(--border);}
+  .opp-footer{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+  .opp-footer button{font-size:.82rem; padding:10px 18px;}
+
+  /* Why us */
+  .why-wrap{display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;}
+  .why-list{display:flex; flex-direction:column; gap:22px; margin-top:28px;}
+  .why-item{display:flex; gap:16px;}
+  .why-item .icon-badge{flex-shrink:0; margin-bottom:0;}
+  .why-item h4{font-size:1rem; margin-bottom:4px; font-family:var(--sans); font-weight:700;}
+  .why-item p{font-size:.88rem; color:var(--muted);}
+  .stat-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .stat-box{
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:26px; text-align:center;
+  }
+  .stat-box strong{display:block; font-family:var(--serif); font-size:2.1rem; color:var(--gold-light);}
+  .stat-box span{font-size:.8rem; color:var(--muted);}
+
+  /* Process */
+  .process-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:24px; counter-reset:step;}
+  .process-step{position:relative; padding-top:8px;}
+  .process-step .num{
+    font-family:var(--serif); font-size:2.4rem; color:transparent;
+    -webkit-text-stroke:1.5px var(--gold);
+    margin-bottom:12px; display:block;
+  }
+  .process-step h4{font-size:1.02rem; margin-bottom:8px;}
+  .process-step p{font-size:.86rem; color:var(--muted);}
+
+  /* Testimonials */
+  .testi-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .testi-card{
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:26px; display:flex; flex-direction:column; gap:16px;
+  }
+  .testi-card .stars{color:var(--gold-light); font-size:.9rem; letter-spacing:2px;}
+  .testi-card p{font-size:.92rem; color:var(--muted); flex:1;}
+  .testi-who{display:flex; align-items:center; gap:12px;}
+  .avatar{
+    width:38px; height:38px; border-radius:50%;
+    background:linear-gradient(135deg,var(--gold-light),var(--gold));
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; color:#151008; font-size:.85rem;
+  }
+  .testi-who strong{display:block; font-size:.88rem;}
+  .testi-who span{font-size:.76rem; color:var(--muted-2);}
+
+  /* Newsletter */
+  .newsletter{
+    background:linear-gradient(135deg, #14100a, #0a0e17 60%);
+    border:1px solid rgba(201,162,75,.25);
+    border-radius:24px;
+    padding:64px 48px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .newsletter::before{
+    content:"";
+    position:absolute; inset:0;
+    background:radial-gradient(ellipse 500px 300px at 50% 0%, rgba(201,162,75,.18), transparent 70%);
+  }
+  .newsletter-inner{position:relative; z-index:1; max-width:560px; margin:0 auto;}
+  .newsletter h2{margin-bottom:12px;}
+  .newsletter p{color:var(--muted); margin-bottom:32px;}
+  .newsletter-form{display:flex; gap:12px; flex-wrap:wrap; justify-content:center;}
+  .newsletter-form input[type=email]{
+    flex:1; min-width:240px;
+    padding:14px 20px; border-radius:999px;
+    border:1px solid var(--border); background:rgba(255,255,255,.04);
+    color:var(--text); font-size:.95rem;
+  }
+  .newsletter-form input[type=email]:focus{outline:none; border-color:var(--gold);}
+  .newsletter-msg{margin-top:16px; font-size:.85rem; min-height:20px;}
+  .newsletter-msg.success{color:#7fe0a6;}
+  .newsletter-msg.error{color:#e08a8a;}
+  .newsletter-note{margin-top:18px; font-size:.74rem; color:var(--muted-2);}
+
+  /* Contact / Footer */
+  .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+  .contact-item{display:flex; gap:14px; margin-bottom:22px;}
+  .contact-item h4{font-size:.92rem; margin-bottom:4px;}
+  .contact-item p{font-size:.88rem; color:var(--muted);}
+  footer{border-top:1px solid var(--border); padding:48px 0 28px; background:var(--bg-alt);}
+  .footer-top{display:flex; justify-content:space-between; gap:40px; flex-wrap:wrap; margin-bottom:36px;}
+  .footer-col h5{font-size:.82rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted-2); margin-bottom:16px;}
+  .footer-col a{display:block; font-size:.86rem; color:var(--muted); padding:5px 0;}
+  .footer-col a:hover{color:var(--gold-light);}
+  .footer-bottom{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; padding-top:24px; border-top:1px solid var(--border); font-size:.78rem; color:var(--muted-2);}
+
+  /* Modal */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(5,7,12,.72); backdrop-filter:blur(4px);
+    display:none; align-items:center; justify-content:center; z-index:1000; padding:24px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:var(--card); border:1px solid var(--border); border-radius:18px;
+    max-width:520px; width:100%; padding:36px; position:relative; max-height:86vh; overflow:auto;
+  }
+  .modal-close{
+    position:absolute; top:18px; right:18px; background:none; border:none; color:var(--muted);
+    font-size:1.3rem; cursor:pointer; line-height:1;
+  }
+  .modal-close:hover{color:var(--text);}
+  .modal h3{font-size:1.3rem; margin-bottom:6px;}
+  .modal .opp-loc{margin-bottom:18px;}
+  .modal-metrics{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:20px 0; padding:18px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border);}
+  .modal-metrics div strong{display:block; font-family:var(--serif); color:var(--gold-light); font-size:1.1rem;}
+  .modal-metrics div span{font-size:.76rem; color:var(--muted);}
+  .modal p.desc{font-size:.92rem; color:var(--muted); margin-bottom:24px;}
+
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  @media (max-width: 980px){
+    .sectors-grid{grid-template-columns:repeat(2,1fr);}
+    .opps-grid{grid-template-columns:repeat(2,1fr);}
+    .why-wrap{grid-template-columns:1fr;}
+    .process-grid{grid-template-columns:repeat(2,1fr); row-gap:36px;}
+    .testi-grid{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width: 680px){
+    .nav-links{display:none;}
+    .nav-cta .btn-ghost, .nav-cta .btn-gold{display:none;}
+    .burger{display:flex;}
+    .hero{padding:150px 0 80px;}
+    .hero-stats{grid-template-columns:repeat(2,1fr);}
+    .sectors-grid{grid-template-columns:1fr;}
+    .opps-grid{grid-template-columns:1fr;}
+    section{padding:64px 0;}
+    .newsletter{padding:44px 24px;}
+    .footer-top{flex-direction:column; gap:28px;}
+  }
+</style>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="text/babel" src="agent-dashboard.jsx"></script>
-  <script type="text/babel">
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(React.createElement(App));
-  </script>
+
+<header>
+  <nav class="nav">
+    <a href="#accueil" class="logo">
+      <span class="mark">SI</span>
+      <span>Smart Invest<small>2 0 3 0</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="#secteurs">Secteurs</a>
+      <a href="#opportunites">Opportunités</a>
+      <a href="#pourquoi">Pourquoi nous</a>
+      <a href="#temoignages">Témoignages</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#newsletter" class="btn btn-ghost">Newsletter</a>
+      <a href="#opportunites" class="btn btn-gold">Investir maintenant</a>
+      <button class="burger" id="burgerBtn" aria-label="Ouvrir le menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#secteurs">Secteurs</a>
+    <a href="#opportunites">Opportunités</a>
+    <a href="#pourquoi">Pourquoi nous</a>
+    <a href="#temoignages">Témoignages</a>
+    <a href="#newsletter">Newsletter</a>
+    <a href="#contact">Contact</a>
+    <a href="#opportunites" class="btn btn-gold" style="margin-top:14px; justify-content:center;">Investir maintenant</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero" id="accueil">
+    <div class="container hero-inner">
+      <div class="eyebrow">Investissement immobilier &amp; industriel</div>
+      <h1>Des actifs d'exception pour <em>investisseurs exigeants</em></h1>
+      <p class="lead">Smart Invest 2030 sélectionne et présente des biens résidentiels, projets de développement, usines et hôtels à vendre — analysés pour leur potentiel de rentabilité et sécurisés pour l'investissement.</p>
+      <div class="hero-actions">
+        <a href="#opportunites" class="btn btn-gold">Découvrir les opportunités</a>
+        <a href="#newsletter" class="btn btn-ghost">Recevoir les offres en avant-première</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>24+</strong><span>Biens &amp; projets actifs</span></div>
+        <div><strong>4</strong><span>Secteurs d'investissement</span></div>
+        <div><strong>9</strong><span>Pays couverts</span></div>
+        <div><strong>11%</strong><span>ROI moyen estimé</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTEURS -->
+  <section id="secteurs">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Nos secteurs</div>
+        <h2>Quatre familles d'actifs, un seul objectif : la performance</h2>
+        <p>Chaque opportunité est sélectionnée selon des critères stricts de localisation, rentabilité et sécurité juridique.</p>
+      </div>
+      <div class="sectors-grid">
+        <div class="sector-card reveal">
+          <div class="icon-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+          </div>
+          <h3>Résidentiel &amp; Bureaux</h3>
+          <p>Appartements, résidences et immeubles de bureaux à haut rendement locatif.</p>
+          <div class="count">8 biens disponibles</div>
+        </div>
+        <div class="sector-card reveal">
+          <div class="icon-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 21h18"/><path d="M5 21V9l6-4 6 4v12"/><path d="M9 21v-6h6v6"/><path d="M9 12h.01M15 12h.01M9 9h.01M15 9h.01"/></svg>
+          </div>
+          <h3>Projets de développement</h3>
+          <p>Terrains et programmes immobiliers en phase de lancement, à fort potentiel de plus-value.</p>
+          <div class="count">6 projets en cours</div>
+        </div>
+        <div class="sector-card reveal">
+          <div class="icon-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 21V10l5-3v3l5-3v3l5-3v13z"/><path d="M7 21v-4M12 21v-4M17 21v-4"/></svg>
+          </div>
+          <h3>Usines &amp; Sites industriels</h3>
+          <p>Unités de production, entrepôts et zones industrielles clés en main ou à réhabiliter.</p>
+          <div class="count">5 sites disponibles</div>
+        </div>
+        <div class="sector-card reveal">
+          <div class="icon-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 21h18"/><path d="M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/><path d="M9 8h1M14 8h1M9 12h1M14 12h1M9 16h1M14 16h1"/></svg>
+          </div>
+          <h3>Hôtels &amp; Hospitality</h3>
+          <p>Hôtels, resorts et boutique-hôtels à vendre, avec exploitation en cours ou à relancer.</p>
+          <div class="count">5 établissements</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPPORTUNITES -->
+  <section id="opportunites" style="background:var(--bg-alt);">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Opportunités en vedette</div>
+        <h2>Une sélection de biens et projets à fort potentiel</h2>
+        <p>Exemples de la sélection actuelle — photos et fiches complètes transmises sur demande aux investisseurs qualifiés.</p>
+      </div>
+      <div class="opps-grid" id="oppsGrid"></div>
+    </div>
+  </section>
+
+  <!-- POURQUOI NOUS -->
+  <section id="pourquoi">
+    <div class="container why-wrap">
+      <div class="reveal">
+        <div class="eyebrow">Pourquoi Smart Invest 2030</div>
+        <h2>Une sélection rigoureuse, un accompagnement complet</h2>
+        <div class="why-list">
+          <div class="why-item">
+            <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>
+            <div><h4>Biens vérifiés</h4><p>Chaque actif est audité juridiquement et financièrement avant d'être proposé.</p></div>
+          </div>
+          <div class="why-item">
+            <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div>
+            <div><h4>Analyse de rentabilité</h4><p>ROI estimé, business plan et perspectives de plus-value pour chaque opportunité.</p></div>
+          </div>
+          <div class="why-item">
+            <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/></svg></div>
+            <div><h4>Accompagnement sécurisé</h4><p>De la visite à la signature, un interlocuteur dédié suit chaque dossier d'investissement.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="stat-grid reveal">
+        <div class="stat-box"><strong>15+</strong><span>Années d'expérience cumulée</span></div>
+        <div class="stat-box"><strong>120+</strong><span>Biens &amp; projets vendus</span></div>
+        <div class="stat-box"><strong>40+</strong><span>Investisseurs internationaux</span></div>
+        <div class="stat-box"><strong>98%</strong><span>Clients satisfaits</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section style="background:var(--bg-alt);">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Comment ça marche</div>
+        <h2>Investir en 4 étapes simples</h2>
+      </div>
+      <div class="process-grid">
+        <div class="process-step reveal"><span class="num">01</span><h4>Découvrir</h4><p>Parcourez notre sélection d'opportunités par secteur et zone géographique.</p></div>
+        <div class="process-step reveal"><span class="num">02</span><h4>Analyser</h4><p>Recevez la fiche complète : rentabilité, documents juridiques, visite virtuelle.</p></div>
+        <div class="process-step reveal"><span class="num">03</span><h4>Investir</h4><p>Nos équipes sécurisent la transaction et vous accompagnent jusqu'à la signature.</p></div>
+        <div class="process-step reveal"><span class="num">04</span><h4>Suivre</h4><p>Suivi de la performance de votre actif et accès prioritaire aux futures opportunités.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEMOIGNAGES -->
+  <section id="temoignages">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Ils nous font confiance</div>
+        <h2>Ce que disent nos investisseurs</h2>
+        <p style="font-size:.8rem; color:var(--muted-2);">Exemples illustratifs — à remplacer par de vrais retours clients.</p>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card reveal">
+          <div class="stars">★★★★★</div>
+          <p>"Un accompagnement très professionnel sur l'acquisition d'un site industriel. Les projections de rentabilité se sont révélées fiables."</p>
+          <div class="testi-who"><div class="avatar">K.B.</div><div><strong>Karim B.</strong><span>Investisseur industriel</span></div></div>
+        </div>
+        <div class="testi-card reveal">
+          <div class="stars">★★★★★</div>
+          <p>"L'équipe a su identifier un hôtel avec un potentiel que je n'avais pas vu. Le suivi post-achat fait toute la différence."</p>
+          <div class="testi-who"><div class="avatar">S.L.</div><div><strong>Sophia L.</strong><span>Investisseuse hôtellerie</span></div></div>
+        </div>
+        <div class="testi-card reveal">
+          <div class="stars">★★★★★</div>
+          <p>"Process transparent du premier contact à la signature. Je recommande pour tout investissement immobilier sérieux."</p>
+          <div class="testi-who"><div class="avatar">M.D.</div><div><strong>Marc D.</strong><span>Investisseur résidentiel</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section id="newsletter" style="background:var(--bg-alt);">
+    <div class="container">
+      <div class="newsletter reveal">
+        <div class="newsletter-inner">
+          <div class="eyebrow" style="justify-content:center;">Ne manquez aucune opportunité</div>
+          <h2>Recevez nos meilleures opportunités en avant-première</h2>
+          <p>Biens exclusifs, projets industriels et hôtels à vendre — directement dans votre boîte mail, avant leur mise en ligne publique.</p>
+          <form class="newsletter-form" id="newsletterForm">
+            <input type="email" name="email" placeholder="votre@email.com" required autocomplete="email">
+            <button type="submit" class="btn btn-gold">S'inscrire</button>
+          </form>
+          <div class="newsletter-msg" id="newsletterMsg"></div>
+          <div class="newsletter-note">En vous inscrivant, vous acceptez de recevoir des communications de Smart Invest 2030. Désinscription possible à tout moment.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container contact-grid">
+      <div class="reveal">
+        <div class="eyebrow">Contact</div>
+        <h2>Parlons de votre projet d'investissement</h2>
+        <p class="muted" style="margin-top:14px; margin-bottom:30px;">Un conseiller dédié vous répond sous 24h pour toute demande de fiche détaillée ou de rendez-vous.</p>
+        <a href="mailto:contact@smartinvest2030.com?subject=Demande d'information investisseur" class="btn btn-gold">Demander une présentation</a>
+      </div>
+      <div class="reveal">
+        <div class="contact-item">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg></div>
+          <div><h4>Email</h4><p>contact@smartinvest2030.com</p></div>
+        </div>
+        <div class="contact-item">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012 4.2 2 2 0 014 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.5 2.1L8 9.6a16 16 0 006 6l1.1-1.1a2 2 0 012.1-.5c.9.3 1.8.5 2.7.6a2 2 0 011.7 2z"/></svg></div>
+          <div><h4>Téléphone</h4><p>+33 1 23 45 67 89</p></div>
+        </div>
+        <div class="contact-item">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div><h4>Bureaux</h4><p>Paris · Casablanca · Dubaï</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-col" style="max-width:280px;">
+        <a href="#accueil" class="logo" style="margin-bottom:14px;">
+          <span class="mark">SI</span>
+          <span>Smart Invest<small>2 0 3 0</small></span>
+        </a>
+        <p class="muted" style="font-size:.85rem;">Sélection et accompagnement d'investissements immobiliers, industriels et hôteliers à l'échelle internationale.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Navigation</h5>
+        <a href="#secteurs">Secteurs</a>
+        <a href="#opportunites">Opportunités</a>
+        <a href="#pourquoi">Pourquoi nous</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h5>Secteurs</h5>
+        <a href="#secteurs">Résidentiel &amp; Bureaux</a>
+        <a href="#secteurs">Projets de développement</a>
+        <a href="#secteurs">Usines &amp; Industriel</a>
+        <a href="#secteurs">Hôtels &amp; Hospitality</a>
+      </div>
+      <div class="footer-col">
+        <h5>Espace pro</h5>
+        <a href="agent.html">Connexion agent</a>
+        <a href="#newsletter">Newsletter</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Smart Invest 2030. Tous droits réservés.</span>
+      <span>Site vitrine — contenus d'exemple à personnaliser.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="Fermer">&times;</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  DONNÉES D'EXEMPLE — à remplacer par vos biens réels
+// ══════════════════════════════════════════════════════
+const OPPORTUNITIES = [
+  {
+    id: 1, category: "Résidentiel", status: "Disponible",
+    title: "Les Terrasses d'Or",
+    location: "Casablanca, Maroc",
+    price: "À partir de 850 000 €",
+    metrics: [["3 200 m²","Surface"],["9%","ROI estimé"]],
+    desc: "Résidence haut standing de 42 unités avec vue panoramique, idéale pour un portefeuille locatif diversifié. Livraison prévue en 4 tranches.",
+    color: "linear-gradient(135deg,#2a2418,#1a1610)"
+  },
+  {
+    id: 2, category: "Industriel", status: "Disponible",
+    title: "NovaTech Usine 4.0",
+    location: "Zone industrielle Nord, France",
+    price: "4 200 000 €",
+    metrics: [["15 000 m²","Surface"],["12%","ROI estimé"]],
+    desc: "Site de production automatisé récemment mis aux normes, avec bail en cours et locataire industriel établi.",
+    color: "linear-gradient(135deg,#131f24,#0d161a)"
+  },
+  {
+    id: 3, category: "Hôtellerie", status: "Exclusif",
+    title: "Le Méridien Bay Resort",
+    location: "Bord de mer, Portugal",
+    price: "12 500 000 €",
+    metrics: [["180 ch.","Capacité"],["14%","ROI estimé"]],
+    desc: "Resort 4 étoiles en exploitation, plage privée, forte occupation saisonnière et marge d'amélioration sur la haute saison.",
+    color: "linear-gradient(135deg,#241a10,#160f0a)"
+  },
+  {
+    id: 4, category: "Projet", status: "Phase 1",
+    title: "Green Valley Business Park",
+    location: "Périphérie urbaine, Espagne",
+    price: "6 800 000 €",
+    metrics: [["25 000 m²","Surface"],["11%","ROI estimé"]],
+    desc: "Programme mixte bureaux et logistique verte, permis obtenus, précommercialisation en cours.",
+    color: "linear-gradient(135deg,#16241c,#0d1712)"
+  },
+  {
+    id: 5, category: "Industriel", status: "Disponible",
+    title: "AgroPlus Production",
+    location: "Zone franche, Tunisie",
+    price: "3 100 000 €",
+    metrics: [["8 500 m²","Surface"],["10%","ROI estimé"]],
+    desc: "Unité agroalimentaire équipée, export actif vers l'Union Européenne, personnel formé en place.",
+    color: "linear-gradient(135deg,#1c1f13,#12140c)"
+  },
+  {
+    id: 6, category: "Hôtellerie", status: "Nouveau",
+    title: "Riad Prestige",
+    location: "Centre historique, Maroc",
+    price: "2 900 000 €",
+    metrics: [["24 ch.","Capacité"],["13%","ROI estimé"]],
+    desc: "Boutique-hôtel de charme entièrement rénové, très bien noté, forte demande touristique toute l'année.",
+    color: "linear-gradient(135deg,#241018,#160a0f)"
+  }
+];
+
+const ICONS = {
+  "Résidentiel":'<svg viewBox="0 0 24 24" fill="none" stroke="#e6c877" stroke-width="1.5"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>',
+  "Industriel":'<svg viewBox="0 0 24 24" fill="none" stroke="#e6c877" stroke-width="1.5"><path d="M3 21V10l5-3v3l5-3v3l5-3v13z"/><path d="M7 21v-4M12 21v-4M17 21v-4"/></svg>',
+  "Hôtellerie":'<svg viewBox="0 0 24 24" fill="none" stroke="#e6c877" stroke-width="1.5"><path d="M3 21h18"/><path d="M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/><path d="M9 8h1M14 8h1M9 12h1M14 12h1M9 16h1M14 16h1"/></svg>',
+  "Projet":'<svg viewBox="0 0 24 24" fill="none" stroke="#e6c877" stroke-width="1.5"><path d="M3 21h18"/><path d="M5 21V9l6-4 6 4v12"/><path d="M9 21v-6h6v6"/></svg>'
+};
+
+function renderOpportunities(){
+  const grid = document.getElementById('oppsGrid');
+  grid.innerHTML = OPPORTUNITIES.map(o => `
+    <div class="opp-card reveal" data-id="${o.id}">
+      <div class="opp-thumb" style="background:${o.color}">
+        <span class="tag">${o.category}</span>
+        <span class="status">${o.status}</span>
+        ${ICONS[o.category]}
+      </div>
+      <div class="opp-body">
+        <h3>${o.title}</h3>
+        <div class="opp-loc">📍 ${o.location}</div>
+        <div class="opp-metrics">
+          ${o.metrics.map(m=>`<div><strong>${m[0]}</strong>${m[1]}</div>`).join('')}
+        </div>
+        <div class="opp-price">${o.price}</div>
+        <div class="opp-footer">
+          <button class="btn btn-ghost opp-detail-btn" data-id="${o.id}">Voir les détails</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  document.querySelectorAll('.opp-detail-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> openModal(parseInt(btn.dataset.id)));
+  });
+  observeReveal();
+}
+
+function openModal(id){
+  const o = OPPORTUNITIES.find(x=>x.id===id);
+  if(!o) return;
+  document.getElementById('modalContent').innerHTML = `
+    <span class="tag" style="position:static; display:inline-flex; margin-bottom:10px;">${o.category}</span>
+    <h3>${o.title}</h3>
+    <div class="opp-loc">📍 ${o.location}</div>
+    <div class="modal-metrics">
+      ${o.metrics.map(m=>`<div><strong>${m[0]}</strong><span>${m[1]}</span></div>`).join('')}
+      <div><strong>${o.status}</strong><span>Statut</span></div>
+      <div><strong>${o.price}</strong><span>Prix</span></div>
+    </div>
+    <p class="desc">${o.desc}</p>
+    <a href="mailto:contact@smartinvest2030.com?subject=Demande d'information — ${encodeURIComponent(o.title)}" class="btn btn-gold btn-block">Demander la fiche complète</a>
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+document.getElementById('modalClose').addEventListener('click', ()=> document.getElementById('modalOverlay').classList.remove('open'));
+document.getElementById('modalOverlay').addEventListener('click', (e)=>{ if(e.target.id==='modalOverlay') e.currentTarget.classList.remove('open'); });
+
+// ══════════════════════════════════════════════════════
+//  NEWSLETTER — capture email
+//  Pour activer un enregistrement réel : renseignez supabaseUrl
+//  et supabaseAnonKey (clé "anon" PUBLIQUE uniquement, jamais la
+//  clé "service_role"/secrète) ci-dessous, et créez une table
+//  "newsletter_subscribers" (colonnes: email text, source text,
+//  created_at timestamptz) avec une policy RLS autorisant l'INSERT
+//  anonyme. Tant que ces valeurs sont vides, les inscriptions sont
+//  simplement conservées en local (mode démo) pour que le formulaire
+//  reste fonctionnel dès la mise en ligne.
+// ══════════════════════════════════════════════════════
+const NEWSLETTER_CONFIG = {
+  supabaseUrl: "",
+  supabaseAnonKey: "",
+  table: "newsletter_subscribers"
+};
+
+document.getElementById('newsletterForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const form = e.target;
+  const email = form.email.value.trim();
+  const msgEl = document.getElementById('newsletterMsg');
+  const btn = form.querySelector('button');
+
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    msgEl.textContent = "Merci de renseigner une adresse email valide.";
+    msgEl.className = "newsletter-msg error";
+    return;
+  }
+
+  btn.disabled = true; btn.textContent = "Envoi...";
+  try{
+    if(NEWSLETTER_CONFIG.supabaseUrl && NEWSLETTER_CONFIG.supabaseAnonKey){
+      const res = await fetch(`${NEWSLETTER_CONFIG.supabaseUrl}/rest/v1/${NEWSLETTER_CONFIG.table}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": NEWSLETTER_CONFIG.supabaseAnonKey,
+          "Authorization": `Bearer ${NEWSLETTER_CONFIG.supabaseAnonKey}`,
+          "Prefer": "return=minimal"
+        },
+        body: JSON.stringify({ email, source: "site-vitrine", created_at: new Date().toISOString() })
+      });
+      if(!res.ok) throw new Error("network");
+    } else {
+      const list = JSON.parse(localStorage.getItem("smartinvest_newsletter_demo") || "[]");
+      list.push({ email, date: new Date().toISOString() });
+      localStorage.setItem("smartinvest_newsletter_demo", JSON.stringify(list));
+    }
+    msgEl.textContent = "Merci ! Vous recevrez bientôt nos meilleures opportunités.";
+    msgEl.className = "newsletter-msg success";
+    form.reset();
+  } catch(err){
+    msgEl.textContent = "Une erreur est survenue. Merci de réessayer plus tard.";
+    msgEl.className = "newsletter-msg error";
+  } finally {
+    btn.disabled = false; btn.textContent = "S'inscrire";
+  }
+});
+
+// Mobile menu
+document.getElementById('burgerBtn').addEventListener('click', ()=>{
+  document.getElementById('mobileMenu').classList.toggle('open');
+});
+document.querySelectorAll('#mobileMenu a').forEach(a=>{
+  a.addEventListener('click', ()=> document.getElementById('mobileMenu').classList.remove('open'));
+});
+
+// Scroll reveal
+function observeReveal(){
+  const els = document.querySelectorAll('.reveal:not(.in)');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target); }
+    });
+  }, { threshold: .12 });
+  els.forEach(el=> io.observe(el));
+}
+
+renderOpportunities();
+observeReveal();
+</script>
 </body>
 </html>
