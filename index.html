@@ -5,24 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Smart Invest 2030 — Investissement Immobilier, Industriel &amp; Hôtelier</title>
 <meta name="description" content="Smart Invest 2030 sélectionne pour ses investisseurs des opportunités immobilières, industrielles et hôtelières à fort potentiel : résidentiel, projets de développement, usines et hôtels à vendre.">
-<meta name="theme-color" content="#0a0e17">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0e17'/%3E%3Cpath d='M20 70 L50 30 L80 70 M35 70 V50 M65 70 V50' stroke='%23c9a24b' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23141b2e'/%3E%3Cpath d='M20 70 L50 30 L80 70 M35 70 V50 M65 70 V50' stroke='%23c99a4e' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 
 <!-- NOTE: Site vitrine avec biens/projets D'EXEMPLE (voir tableau OPPORTUNITIES plus bas).
-     Remplacez photos, prix, textes et coordonnées par vos données réelles avant mise en ligne définitive. -->
+     Photos: /images (crédits Wikimedia Commons, licences libres) — à remplacer par vos
+     propres photos. Remplacez aussi prix, textes et coordonnées par vos données réelles. -->
 
 <style>
   :root{
-    --bg:#0a0e17;
-    --bg-alt:#0e1420;
-    --card:#131a29;
-    --card-hover:#171f31;
-    --border:rgba(255,255,255,.08);
-    --gold:#c9a24b;
-    --gold-light:#e6c877;
-    --text:#f3efe6;
-    --muted:#98a2b8;
-    --muted-2:#6b7688;
+    --bg:#faf8f4;
+    --bg-alt:#f1ece1;
+    --card:#ffffff;
+    --border:#e7e1d2;
+    --gold:#9c6b23;
+    --gold-soft:#c79a4e;
+    --ink:#1c2233;
+    --ink-soft:#3f4658;
+    --muted:#6b7280;
+    --muted-2:#96939a;
+    --navy:#141b2e;
+    --navy-deep:#0b1120;
     --serif: Georgia, 'Times New Roman', Times, serif;
     --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     --radius: 14px;
@@ -31,7 +34,7 @@
   html{scroll-behavior:smooth;}
   body{
     background:var(--bg);
-    color:var(--text);
+    color:var(--ink);
     font-family:var(--sans);
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
@@ -53,8 +56,8 @@
     font-size:.75rem;
     letter-spacing:.18em;
     text-transform:uppercase;
-    color:var(--gold-light);
-    font-weight:600;
+    color:var(--gold);
+    font-weight:700;
     margin-bottom:14px;
   }
   .eyebrow::before{
@@ -65,7 +68,8 @@
     font-family:var(--serif);
     font-weight:600;
     letter-spacing:.01em;
-    color:var(--text);
+    color:var(--ink);
+    text-wrap:balance;
   }
   h2{font-size:clamp(1.7rem, 3.2vw, 2.5rem); line-height:1.2;}
   .section-head{max-width:640px; margin-bottom:48px;}
@@ -85,21 +89,22 @@
     font-size:.92rem;
     cursor:pointer;
     border:1px solid transparent;
-    transition:transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
     white-space:nowrap;
   }
   .btn:active{transform:scale(.97);}
+  .btn:focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
   .btn-gold{
-    background:linear-gradient(135deg, var(--gold-light), var(--gold));
-    color:#151008;
+    background:linear-gradient(135deg, var(--gold-soft), var(--gold));
+    color:#fff8ec;
   }
-  .btn-gold:hover{box-shadow:0 8px 24px rgba(201,162,75,.35); transform:translateY(-1px);}
+  .btn-gold:hover{box-shadow:0 10px 24px rgba(156,107,35,.35); transform:translateY(-1px);}
   .btn-ghost{
     background:transparent;
-    color:var(--text);
+    color:var(--ink);
     border-color:var(--border);
   }
-  .btn-ghost:hover{border-color:var(--gold); color:var(--gold-light);}
+  .btn-ghost:hover{border-color:var(--gold); color:var(--gold);}
   .btn-block{width:100%;}
   .btn[disabled]{opacity:.6; cursor:not-allowed; transform:none;}
 
@@ -107,7 +112,7 @@
   header{
     position:fixed; top:0; left:0; right:0; z-index:100;
     backdrop-filter:blur(14px);
-    background:rgba(10,14,23,.72);
+    background:rgba(250,248,244,.82);
     border-bottom:1px solid var(--border);
   }
   .nav{
@@ -119,27 +124,28 @@
     display:flex; align-items:center; gap:10px;
     font-family:var(--serif);
     font-size:1.15rem; font-weight:700; letter-spacing:.02em;
+    color:var(--ink);
   }
   .logo .mark{
     width:34px; height:34px; border-radius:9px;
-    background:linear-gradient(135deg, var(--gold-light), var(--gold));
+    background:linear-gradient(135deg, var(--gold-soft), var(--gold));
     display:flex; align-items:center; justify-content:center;
-    color:#151008; font-weight:800; font-family:var(--sans);
+    color:#fff8ec; font-weight:800; font-family:var(--sans);
   }
   .logo small{display:block; font-family:var(--sans); font-size:.6rem; letter-spacing:.2em; color:var(--muted); font-weight:600;}
   .nav-links{display:flex; align-items:center; gap:32px;}
   .nav-links a{font-size:.88rem; font-weight:500; color:var(--muted); transition:color .15s;}
-  .nav-links a:hover{color:var(--gold-light);}
+  .nav-links a:hover{color:var(--gold);}
   .nav-cta{display:flex; align-items:center; gap:14px;}
   .burger{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px;}
-  .burger span{width:22px; height:2px; background:var(--text); display:block;}
+  .burger span{width:22px; height:2px; background:var(--ink); display:block;}
   .mobile-menu{
     display:none;
     flex-direction:column;
     gap:4px;
     padding:12px 24px 20px;
     border-top:1px solid var(--border);
-    background:rgba(10,14,23,.98);
+    background:#fff;
   }
   .mobile-menu a{padding:12px 0; font-size:.95rem; color:var(--muted); border-bottom:1px solid var(--border);}
   .mobile-menu.open{display:flex;}
@@ -147,36 +153,40 @@
   /* Hero */
   .hero{
     position:relative;
-    padding:190px 0 120px;
+    padding:200px 0 130px;
     overflow:hidden;
-    background:
-      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(201,162,75,.16), transparent 60%),
-      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(80,110,180,.14), transparent 60%),
-      var(--bg);
+    color:#fff;
+    background:var(--navy-deep);
   }
-  .hero::before{
+  .hero-bg{
+    position:absolute; inset:0; z-index:0;
+    background-image:url('images/hero.jpg');
+    background-size:cover;
+    background-position:center 62%;
+  }
+  .hero-bg::after{
     content:"";
     position:absolute; inset:0;
-    background-image:
-      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-    background-size:56px 56px;
-    mask-image:radial-gradient(ellipse 900px 500px at 30% 20%, black, transparent 70%);
-    pointer-events:none;
+    background:
+      linear-gradient(180deg, rgba(8,11,20,.90) 0%, rgba(10,14,25,.82) 45%, rgba(11,16,28,.94) 100%);
   }
   .hero-inner{position:relative; z-index:1; max-width:760px;}
-  .hero h1{font-size:clamp(2.3rem, 5vw, 3.7rem); line-height:1.12; margin-bottom:22px;}
-  .hero h1 em{color:var(--gold-light); font-style:normal;}
-  .hero p.lead{font-size:1.15rem; color:var(--muted); max-width:560px; margin-bottom:36px;}
+  .hero .eyebrow{color:#e6c17f;}
+  .hero .eyebrow::before{background:#e6c17f;}
+  .hero h1{font-size:clamp(2.3rem, 5vw, 3.7rem); line-height:1.12; margin-bottom:22px; color:#fff;}
+  .hero h1 em{color:#e6c17f; font-style:normal;}
+  .hero p.lead{font-size:1.15rem; color:#d6d9e2; max-width:560px; margin-bottom:36px;}
   .hero-actions{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:64px;}
+  .hero .btn-ghost{background:rgba(255,255,255,.06); color:#fff; border-color:rgba(255,255,255,.35);}
+  .hero .btn-ghost:hover{border-color:#e6c17f; color:#e6c17f;}
   .hero-stats{
     display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
-    background:var(--border); border:1px solid var(--border); border-radius:var(--radius);
+    background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.14); border-radius:var(--radius);
     overflow:hidden; max-width:760px;
   }
-  .hero-stats div{background:rgba(255,255,255,.02); padding:22px 18px;}
-  .hero-stats strong{display:block; font-family:var(--serif); font-size:1.6rem; color:var(--gold-light);}
-  .hero-stats span{font-size:.78rem; color:var(--muted); letter-spacing:.02em;}
+  .hero-stats div{background:rgba(255,255,255,.045); padding:22px 18px;}
+  .hero-stats strong{display:block; font-family:var(--serif); font-size:1.6rem; color:#e6c17f;}
+  .hero-stats span{font-size:.78rem; color:rgba(255,255,255,.72); letter-spacing:.02em;}
 
   /* Sector cards */
   .sectors-grid{
@@ -187,29 +197,30 @@
     border:1px solid var(--border);
     border-radius:var(--radius);
     padding:28px 24px;
-    transition:transform .2s ease, border-color .2s ease, background .2s ease;
+    box-shadow:0 1px 2px rgba(30,25,10,.04);
+    transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
   }
-  .sector-card:hover{transform:translateY(-4px); border-color:rgba(201,162,75,.4); background:var(--card-hover);}
+  .sector-card:hover{transform:translateY(-4px); border-color:rgba(156,107,35,.35); box-shadow:0 14px 28px rgba(30,25,10,.09);}
   .icon-badge{
     width:48px; height:48px; border-radius:12px;
-    background:rgba(201,162,75,.12);
+    background:rgba(156,107,35,.10);
     display:flex; align-items:center; justify-content:center;
     margin-bottom:18px;
   }
-  .icon-badge svg{width:24px; height:24px; stroke:var(--gold-light);}
+  .icon-badge svg{width:24px; height:24px; stroke:var(--gold);}
   .sector-card h3{font-size:1.08rem; margin-bottom:8px;}
   .sector-card p{font-size:.88rem; color:var(--muted); margin-bottom:16px;}
-  .sector-card .count{font-size:.78rem; color:var(--gold-light); font-weight:600;}
+  .sector-card .count{font-size:.78rem; color:var(--gold); font-weight:700;}
 
   /* Opportunities */
   .filter-bar{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:32px;}
   .filter-chip{
     padding:9px 18px; border-radius:999px; font-size:.82rem; font-weight:600;
-    background:transparent; border:1px solid var(--border); color:var(--muted);
+    background:#fff; border:1px solid var(--border); color:var(--muted);
     cursor:pointer; transition:all .15s ease;
   }
-  .filter-chip:hover{border-color:var(--gold); color:var(--gold-light);}
-  .filter-chip.active{background:linear-gradient(135deg,var(--gold-light),var(--gold)); color:#151008; border-color:transparent;}
+  .filter-chip:hover{border-color:var(--gold); color:var(--gold);}
+  .filter-chip.active{background:linear-gradient(135deg,var(--gold-soft),var(--gold)); color:#fff8ec; border-color:transparent;}
   .opps-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
   .opp-card.hidden{display:none;}
   .opps-empty{display:none; color:var(--muted); font-size:.9rem; padding:32px 0; text-align:center;}
@@ -220,43 +231,49 @@
     border-radius:var(--radius);
     overflow:hidden;
     display:flex; flex-direction:column;
-    transition:transform .2s ease, border-color .2s ease;
+    box-shadow:0 1px 2px rgba(30,25,10,.04);
+    transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
   }
-  .opp-card:hover{transform:translateY(-4px); border-color:rgba(201,162,75,.35);}
+  .opp-card:hover{transform:translateY(-4px); border-color:rgba(156,107,35,.3); box-shadow:0 18px 34px rgba(30,25,10,.12);}
   .opp-thumb{
-    height:170px;
+    height:210px;
     position:relative;
-    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+    background:var(--bg-alt);
   }
-  .opp-thumb svg{width:46px; height:46px; opacity:.9;}
+  .opp-thumb img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition:transform .5s ease;
+  }
+  .opp-card:hover .opp-thumb img{transform:scale(1.06);}
   .opp-thumb::after{
     content:"";
     position:absolute; inset:0;
-    background-image:linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
-    background-size:24px 24px;
+    background:linear-gradient(180deg, rgba(10,12,10,.28) 0%, transparent 28%, transparent 72%, rgba(10,12,10,.22) 100%);
+    pointer-events:none;
   }
   .tag{
     position:absolute; top:14px; left:14px; z-index:2;
     font-size:.68rem; text-transform:uppercase; letter-spacing:.08em; font-weight:700;
     padding:5px 11px; border-radius:999px;
-    background:rgba(10,14,23,.55); backdrop-filter:blur(4px);
-    color:var(--gold-light);
-    border:1px solid rgba(255,255,255,.14);
+    background:rgba(15,17,14,.55); backdrop-filter:blur(4px);
+    color:#f4e6c8;
+    border:1px solid rgba(255,255,255,.22);
   }
   .status{
     position:absolute; top:14px; right:14px; z-index:2;
     font-size:.66rem; font-weight:700; letter-spacing:.04em;
     padding:5px 10px; border-radius:999px;
-    background:rgba(80,190,120,.18); color:#7fe0a6;
-    border:1px solid rgba(80,190,120,.3);
+    background:rgba(255,255,255,.92); color:#1a7a43;
+    border:1px solid rgba(26,122,67,.2);
   }
   .opp-body{padding:20px 22px 22px; display:flex; flex-direction:column; gap:10px; flex:1;}
   .opp-body h3{font-size:1.08rem;}
   .opp-loc{font-size:.82rem; color:var(--muted); display:flex; align-items:center; gap:6px;}
   .opp-metrics{display:flex; gap:14px; margin:6px 0 4px; flex-wrap:wrap;}
   .opp-metrics div{font-size:.75rem; color:var(--muted-2);}
-  .opp-metrics strong{display:block; color:var(--text); font-size:.92rem; font-family:var(--serif);}
-  .opp-price{font-family:var(--serif); font-size:1.2rem; color:var(--gold-light); margin-top:auto; padding-top:10px; border-top:1px solid var(--border);}
+  .opp-metrics strong{display:block; color:var(--ink); font-size:.92rem; font-family:var(--serif);}
+  .opp-price{font-family:var(--serif); font-size:1.2rem; color:var(--gold); margin-top:auto; padding-top:10px; border-top:1px solid var(--border);}
   .opp-footer{display:flex; align-items:center; justify-content:space-between; gap:10px;}
   .opp-footer button{font-size:.82rem; padding:10px 18px;}
 
@@ -271,8 +288,9 @@
   .stat-box{
     background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
     padding:26px; text-align:center;
+    box-shadow:0 1px 2px rgba(30,25,10,.04);
   }
-  .stat-box strong{display:block; font-family:var(--serif); font-size:2.1rem; color:var(--gold-light);}
+  .stat-box strong{display:block; font-family:var(--serif); font-size:2.1rem; color:var(--gold);}
   .stat-box span{font-size:.8rem; color:var(--muted);}
 
   /* Process */
@@ -291,23 +309,24 @@
   .testi-card{
     background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
     padding:26px; display:flex; flex-direction:column; gap:16px;
+    box-shadow:0 1px 2px rgba(30,25,10,.04);
   }
-  .testi-card .stars{color:var(--gold-light); font-size:.9rem; letter-spacing:2px;}
-  .testi-card p{font-size:.92rem; color:var(--muted); flex:1;}
+  .testi-card .stars{color:var(--gold); font-size:.9rem; letter-spacing:2px;}
+  .testi-card p{font-size:.92rem; color:var(--ink-soft); flex:1;}
   .testi-who{display:flex; align-items:center; gap:12px;}
   .avatar{
     width:38px; height:38px; border-radius:50%;
-    background:linear-gradient(135deg,var(--gold-light),var(--gold));
+    background:linear-gradient(135deg,var(--gold-soft),var(--gold));
     display:flex; align-items:center; justify-content:center;
-    font-weight:700; color:#151008; font-size:.85rem;
+    font-weight:700; color:#fff8ec; font-size:.85rem;
   }
   .testi-who strong{display:block; font-size:.88rem;}
   .testi-who span{font-size:.76rem; color:var(--muted-2);}
 
   /* Newsletter */
   .newsletter{
-    background:linear-gradient(135deg, #14100a, #0a0e17 60%);
-    border:1px solid rgba(201,162,75,.25);
+    background:linear-gradient(135deg, var(--navy-deep), var(--navy) 65%);
+    border:1px solid rgba(255,255,255,.08);
     border-radius:24px;
     padding:64px 48px;
     text-align:center;
@@ -317,60 +336,70 @@
   .newsletter::before{
     content:"";
     position:absolute; inset:0;
-    background:radial-gradient(ellipse 500px 300px at 50% 0%, rgba(201,162,75,.18), transparent 70%);
+    background:radial-gradient(ellipse 500px 300px at 50% 0%, rgba(201,154,78,.22), transparent 70%);
   }
   .newsletter-inner{position:relative; z-index:1; max-width:560px; margin:0 auto;}
-  .newsletter h2{margin-bottom:12px;}
-  .newsletter p{color:var(--muted); margin-bottom:32px;}
+  .newsletter h2{margin-bottom:12px; color:#fff;}
+  .newsletter p{color:rgba(255,255,255,.72); margin-bottom:32px;}
+  .newsletter .eyebrow{color:#e6c17f;}
+  .newsletter .eyebrow::before{background:#e6c17f;}
   .newsletter-form{display:flex; gap:12px; flex-wrap:wrap; justify-content:center;}
   .newsletter-form input[type=email]{
     flex:1; min-width:240px;
     padding:14px 20px; border-radius:999px;
-    border:1px solid var(--border); background:rgba(255,255,255,.04);
-    color:var(--text); font-size:.95rem;
+    border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08);
+    color:#fff; font-size:.95rem;
   }
-  .newsletter-form input[type=email]:focus{outline:none; border-color:var(--gold);}
+  .newsletter-form input[type=email]::placeholder{color:rgba(255,255,255,.5);}
+  .newsletter-form input[type=email]:focus{outline:none; border-color:var(--gold-soft);}
   .newsletter-msg{margin-top:16px; font-size:.85rem; min-height:20px;}
-  .newsletter-msg.success{color:#7fe0a6;}
-  .newsletter-msg.error{color:#e08a8a;}
-  .newsletter-note{margin-top:18px; font-size:.74rem; color:var(--muted-2);}
+  .newsletter-msg.success{color:#8fe0ac;}
+  .newsletter-msg.error{color:#f0a3a3;}
+  .newsletter-note{margin-top:18px; font-size:.74rem; color:rgba(255,255,255,.45);}
 
   /* Contact / Footer */
   .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
   .contact-item{display:flex; gap:14px; margin-bottom:22px;}
   .contact-item h4{font-size:.92rem; margin-bottom:4px;}
   .contact-item p{font-size:.88rem; color:var(--muted);}
-  footer{border-top:1px solid var(--border); padding:48px 0 28px; background:var(--bg-alt);}
+  footer{background:var(--navy-deep); color:rgba(255,255,255,.7); padding:52px 0 28px;}
+  footer .logo{color:#fff;}
+  footer .logo small{color:rgba(255,255,255,.45);}
   .footer-top{display:flex; justify-content:space-between; gap:40px; flex-wrap:wrap; margin-bottom:36px;}
-  .footer-col h5{font-size:.82rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted-2); margin-bottom:16px;}
-  .footer-col a{display:block; font-size:.86rem; color:var(--muted); padding:5px 0;}
-  .footer-col a:hover{color:var(--gold-light);}
-  .footer-bottom{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; padding-top:24px; border-top:1px solid var(--border); font-size:.78rem; color:var(--muted-2);}
+  .footer-col h5{font-size:.82rem; text-transform:uppercase; letter-spacing:.08em; color:rgba(255,255,255,.4); margin-bottom:16px;}
+  .footer-col a{display:block; font-size:.86rem; color:rgba(255,255,255,.68); padding:5px 0;}
+  .footer-col a:hover{color:#e6c17f;}
+  .footer-bottom{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; padding-top:24px; border-top:1px solid rgba(255,255,255,.12); font-size:.78rem; color:rgba(255,255,255,.4);}
 
   /* Modal */
   .modal-overlay{
-    position:fixed; inset:0; background:rgba(5,7,12,.72); backdrop-filter:blur(4px);
+    position:fixed; inset:0; background:rgba(20,20,15,.55); backdrop-filter:blur(4px);
     display:none; align-items:center; justify-content:center; z-index:1000; padding:24px;
   }
   .modal-overlay.open{display:flex;}
   .modal{
-    background:var(--card); border:1px solid var(--border); border-radius:18px;
+    background:#fff; border:1px solid var(--border); border-radius:18px;
     max-width:520px; width:100%; padding:36px; position:relative; max-height:86vh; overflow:auto;
+    box-shadow:0 24px 60px rgba(20,15,5,.25);
   }
   .modal-close{
     position:absolute; top:18px; right:18px; background:none; border:none; color:var(--muted);
     font-size:1.3rem; cursor:pointer; line-height:1;
   }
-  .modal-close:hover{color:var(--text);}
+  .modal-close:hover{color:var(--ink);}
   .modal h3{font-size:1.3rem; margin-bottom:6px;}
   .modal .opp-loc{margin-bottom:18px;}
   .modal-metrics{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:20px 0; padding:18px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border);}
-  .modal-metrics div strong{display:block; font-family:var(--serif); color:var(--gold-light); font-size:1.1rem;}
+  .modal-metrics div strong{display:block; font-family:var(--serif); color:var(--gold); font-size:1.1rem;}
   .modal-metrics div span{font-size:.76rem; color:var(--muted);}
   .modal p.desc{font-size:.92rem; color:var(--muted); margin-bottom:24px;}
 
   .reveal{opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease;}
   .reveal.in{opacity:1; transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1; transform:none; transition:none;}
+    .opp-card:hover .opp-thumb img{transform:none;}
+  }
 
   @media (max-width: 980px){
     .sectors-grid{grid-template-columns:repeat(2,1fr);}
@@ -432,6 +461,7 @@
 
   <!-- HERO -->
   <section class="hero" id="accueil">
+    <div class="hero-bg"></div>
     <div class="container hero-inner">
       <div class="eyebrow">Investissement immobilier &amp; industriel</div>
       <h1>Des actifs d'exception pour <em>investisseurs exigeants</em></h1>
@@ -643,7 +673,7 @@
           <span class="mark">SI</span>
           <span>Smart Invest<small>2 0 3 0</small></span>
         </a>
-        <p class="muted" style="font-size:.85rem;">Sélection et accompagnement d'investissements immobiliers, industriels et hôteliers à l'échelle internationale.</p>
+        <p style="font-size:.85rem; color:rgba(255,255,255,.6);">Sélection et accompagnement d'investissements immobiliers, industriels et hôteliers à l'échelle internationale.</p>
       </div>
       <div class="footer-col">
         <h5>Navigation</h5>
@@ -683,6 +713,7 @@
 <script>
 // ══════════════════════════════════════════════════════
 //  DONNÉES D'EXEMPLE — à remplacer par vos biens réels
+//  Photos dans /images (crédits Wikimedia Commons, licences libres)
 // ══════════════════════════════════════════════════════
 const OPPORTUNITIES = [
   {
@@ -692,7 +723,7 @@ const OPPORTUNITIES = [
     price: "À partir de 850 000 €",
     metrics: [["3 200 m²","Surface"],["9%","ROI estimé"]],
     desc: "Résidence haut standing de 42 unités avec vue panoramique, idéale pour un portefeuille locatif diversifié. Livraison prévue en 4 tranches.",
-    color: "linear-gradient(135deg,#2a2418,#1a1610)"
+    image: "images/opp-terrasses-or.jpg"
   },
   {
     id: 2, category: "Industriel", status: "Disponible",
@@ -701,7 +732,7 @@ const OPPORTUNITIES = [
     price: "4 200 000 €",
     metrics: [["15 000 m²","Surface"],["12%","ROI estimé"]],
     desc: "Site de production automatisé récemment mis aux normes, avec bail en cours et locataire industriel établi.",
-    color: "linear-gradient(135deg,#131f24,#0d161a)"
+    image: "images/opp-novatech.jpg"
   },
   {
     id: 3, category: "Hôtellerie", status: "Exclusif",
@@ -710,7 +741,7 @@ const OPPORTUNITIES = [
     price: "12 500 000 €",
     metrics: [["180 ch.","Capacité"],["14%","ROI estimé"]],
     desc: "Resort 4 étoiles en exploitation, plage privée, forte occupation saisonnière et marge d'amélioration sur la haute saison.",
-    color: "linear-gradient(135deg,#241a10,#160f0a)"
+    image: "images/opp-meridien.jpg"
   },
   {
     id: 4, category: "Projet", status: "Phase 1",
@@ -719,7 +750,7 @@ const OPPORTUNITIES = [
     price: "6 800 000 €",
     metrics: [["25 000 m²","Surface"],["11%","ROI estimé"]],
     desc: "Programme mixte bureaux et logistique verte, permis obtenus, précommercialisation en cours.",
-    color: "linear-gradient(135deg,#16241c,#0d1712)"
+    image: "images/opp-greenvalley.jpg"
   },
   {
     id: 5, category: "Industriel", status: "Disponible",
@@ -728,7 +759,7 @@ const OPPORTUNITIES = [
     price: "3 100 000 €",
     metrics: [["8 500 m²","Surface"],["10%","ROI estimé"]],
     desc: "Unité agroalimentaire équipée, export actif vers l'Union Européenne, personnel formé en place.",
-    color: "linear-gradient(135deg,#1c1f13,#12140c)"
+    image: "images/opp-agroplus.jpg"
   },
   {
     id: 6, category: "Hôtellerie", status: "Nouveau",
@@ -737,7 +768,7 @@ const OPPORTUNITIES = [
     price: "2 900 000 €",
     metrics: [["24 ch.","Capacité"],["13%","ROI estimé"]],
     desc: "Boutique-hôtel de charme entièrement rénové, très bien noté, forte demande touristique toute l'année.",
-    color: "linear-gradient(135deg,#241018,#160a0f)"
+    image: "images/opp-riad.jpg"
   },
   {
     id: 7, category: "Résidentiel", status: "Disponible",
@@ -746,7 +777,7 @@ const OPPORTUNITIES = [
     price: "À partir de 620 000 TND",
     metrics: [["2 100 m²","Surface"],["8%","ROI estimé"]],
     desc: "Immeuble de standing de 28 appartements face au lac, forte demande locative cadres et expatriés.",
-    color: "linear-gradient(135deg,#1a2024,#10151a)"
+    image: "images/opp-marina.jpg"
   },
   {
     id: 8, category: "Projet", status: "Précommercialisation",
@@ -755,7 +786,7 @@ const OPPORTUNITIES = [
     price: "5 400 000 TND",
     metrics: [["18 000 m²","Surface"],["12%","ROI estimé"]],
     desc: "Programme mixte bureaux et commerces en zone franche, permis de construire obtenu, livraison en 3 phases.",
-    color: "linear-gradient(135deg,#182018,#0e130e)"
+    image: "images/opp-palm.jpg"
   },
   {
     id: 9, category: "Industriel", status: "Disponible",
@@ -764,7 +795,7 @@ const OPPORTUNITIES = [
     price: "2 750 000 TND",
     metrics: [["6 200 m²","Surface"],["11%","ROI estimé"]],
     desc: "Unité textile équipée et opérationnelle, contrats d'export établis avec l'Europe, main-d'œuvre qualifiée en place.",
-    color: "linear-gradient(135deg,#20191c,#130f11)"
+    image: "images/opp-texpro.jpg"
   },
   {
     id: 10, category: "Hôtellerie", status: "Disponible",
@@ -773,7 +804,7 @@ const OPPORTUNITIES = [
     price: "3 600 000 TND",
     metrics: [["36 ch.","Capacité"],["15%","ROI estimé"]],
     desc: "Lodge écotouristique en plein essor, forte croissance de la demande sur le tourisme saharien authentique.",
-    color: "linear-gradient(135deg,#241c10,#160f09)"
+    image: "images/opp-sahara.jpg"
   },
   {
     id: 11, category: "Résidentiel", status: "Exclusif",
@@ -782,7 +813,7 @@ const OPPORTUNITIES = [
     price: "1 450 000 TND / unité",
     metrics: [["450 m²","Surface/villa"],["9%","ROI estimé"]],
     desc: "Ensemble de 12 villas de standing en bord de mer, finitions haut de gamme, forte plus-value attendue.",
-    color: "linear-gradient(135deg,#1e1a24,#120f16)"
+    image: "images/opp-villa.jpg"
   },
   {
     id: 12, category: "Projet", status: "Phase 1",
@@ -791,25 +822,18 @@ const OPPORTUNITIES = [
     price: "7 200 000 TND",
     metrics: [["30 000 m²","Surface"],["13%","ROI estimé"]],
     desc: "Plateforme logistique nouvelle génération près du port, idéale pour investisseurs orientés e-commerce et import-export.",
-    color: "linear-gradient(135deg,#141c20,#0c1215)"
+    image: "images/opp-caplogistics.jpg"
   }
 ];
-
-const ICONS = {
-  "Résidentiel":'<svg viewBox="0 0 24 24" fill="none" stroke="#e6c877" stroke-width="1.5"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>',
-  "Industriel":'<svg viewBox="0 0 24 24" fill="none" stroke="#e6c877" stroke-width="1.5"><path d="M3 21V10l5-3v3l5-3v3l5-3v13z"/><path d="M7 21v-4M12 21v-4M17 21v-4"/></svg>',
-  "Hôtellerie":'<svg viewBox="0 0 24 24" fill="none" stroke="#e6c877" stroke-width="1.5"><path d="M3 21h18"/><path d="M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/><path d="M9 8h1M14 8h1M9 12h1M14 12h1M9 16h1M14 16h1"/></svg>',
-  "Projet":'<svg viewBox="0 0 24 24" fill="none" stroke="#e6c877" stroke-width="1.5"><path d="M3 21h18"/><path d="M5 21V9l6-4 6 4v12"/><path d="M9 21v-6h6v6"/></svg>'
-};
 
 function renderOpportunities(){
   const grid = document.getElementById('oppsGrid');
   grid.innerHTML = OPPORTUNITIES.map(o => `
     <div class="opp-card reveal" data-id="${o.id}">
-      <div class="opp-thumb" style="background:${o.color}">
+      <div class="opp-thumb">
+        <img src="${o.image}" alt="${o.title} — ${o.location}" loading="lazy">
         <span class="tag">${o.category}</span>
         <span class="status">${o.status}</span>
-        ${ICONS[o.category]}
       </div>
       <div class="opp-body">
         <h3>${o.title}</h3>
@@ -855,6 +879,7 @@ function openModal(id){
   const o = OPPORTUNITIES.find(x=>x.id===id);
   if(!o) return;
   document.getElementById('modalContent').innerHTML = `
+    <img src="${o.image}" alt="${o.title} — ${o.location}" style="width:100%; height:200px; object-fit:cover; border-radius:12px; margin-bottom:18px;">
     <span class="tag" style="position:static; display:inline-flex; margin-bottom:10px;">${o.category}</span>
     <h3>${o.title}</h3>
     <div class="opp-loc">📍 ${o.location}</div>
